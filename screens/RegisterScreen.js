@@ -4,6 +4,7 @@ import { StatusBar } from 'react-native'
 import { StyleSheet, View } from 'react-native'
 import { KeyboardAvoidingView } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
+import { auth } from '../firebase';
 
 
 
@@ -26,7 +27,16 @@ const RegisterScreen = ({navigation}) => {
 
 
     const handleRegister = () =>{
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(authUser => {
+                authUser.user.updateProfile({
+                    displayName: name,
+                    photoURL: imageUrl || "https://www.worldfuturecouncil.org/wp-content/uploads/2020/02/dummy-profile-pic-300x300-1.png",
 
+
+                })
+            })
+            .catch((error) => alert(error.message))
     }
 
 

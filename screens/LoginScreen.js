@@ -1,16 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native';
 import { StatusBar } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import {Button, Input, Image} from 'react-native-elements'
+import { auth } from '../firebase';
 
 const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
-    const signIn = () => {
+    //if already registered instead of coming to login is replaced to home screen
+    useEffect(()=>{
+        const unsubscribe = auth.onAuthStateChanged((authUser)=>{
+            console.log(authUser)
+            if(authUser){
+                navigation.replace('Home')
+            }
+        })
+        
 
+        return unsubscribe
+        
+    }, [])
+
+    const signIn = () => {
+        
     }
 
     //inside the stack.screen one of the props you get is navigation
